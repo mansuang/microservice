@@ -30,7 +30,7 @@ export default {
     async queryData() {
       this.loading = true;
       await new Promise(resolve => setTimeout(resolve, 1000));
-      let posts = await this.axios.get('http://localhost:4002/posts')
+      let posts = await this.axios.get('http://my-app.com/query/posts')
       this.posts = posts.data
       this.loading = false;
     }

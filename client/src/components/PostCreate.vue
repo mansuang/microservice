@@ -5,7 +5,7 @@
       <input class="form-control" v-model="title">
     </div>
     <div class="mb-3">
-      <button className="btn btn-primary">Submit</button>
+      <button className="btn btn-primary">Post!!</button>
     </div>
 
   </form>
@@ -21,7 +21,7 @@ export default {
   methods: {
     async postMessage() {
       console.log('post title')
-      await this.axios.post("http://localhost:4000/posts", {
+      await this.axios.post("http://my-app.com/posts/posts", {
         title: this.title,
       });
 

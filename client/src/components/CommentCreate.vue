@@ -20,7 +20,7 @@ export default {
     },
     methods: {
         async createComment(postId) {
-            await this.axios.post(`http://localhost:4001/posts/${this.postId}/comments`, {
+            await this.axios.post(`http://my-app.com/comments/posts/${this.postId}/comments`, {
                 content: this.content,
             });
 
