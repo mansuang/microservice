@@ -1,47 +1,47 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+  <main class="container">
+    <PostCreate @update="queryData" />
+    <hr>
+    <div class="spinner-border" role="status" v-if="loading">
+      <span class="visually-hidden">Loading...</span>
     </div>
-  </header>
+    <div v-for="(post,postId) in posts" :key="postId">
+      <h2>{{ post.title }}</h2>
+      <CommentList :comments="post.comments" />
+      <CommentCreate :postId="postId" @update="queryData" />
+    </div>
 
-  <main>
-    <TheWelcome />
   </main>
 </template>
 
+<script>
+import PostCreate from './components/PostCreate.vue';
+import CommentCreate from './components/CommentCreate.vue';
+import CommentList from './components/CommentList.vue';
+export default {
+  data() {
+    return {
+      posts: [],
+      loading: false,
+    };
+  },
+  components: { PostCreate, CommentCreate, CommentList },
+  methods: {
+    async queryData() {
+      this.loading = true;
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      let posts = await this.axios.get('http://localhost:4002/posts')
+      this.posts = posts.data
+      this.loading = false;
+    }
+  },
+  created() {
+    this.queryData();
+
+  }
+}
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
-}
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
